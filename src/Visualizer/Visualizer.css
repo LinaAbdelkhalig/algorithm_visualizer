@@ -1,0 +1,17 @@
+.array-container {
+    left: 10em;
+    position: absolute;
+    bottom: 100;
+}
+
+.array-bar {
+    width: 10px;
+    background-color: pink;
+    display: inline-block;
+    margin: 0 1px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+}
