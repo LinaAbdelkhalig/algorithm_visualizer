@@ -1,24 +1,63 @@
-export const mergeSort = array => {
-    if (array.length === 1) return array;
+// 
 
-    const midIndex = Math.floor(array.length / 2);
-    const left = mergeSort(array.slice(0, midIndex));
-    const right = mergeSort(array.slice(midIndex));
+export function mergeSort(array) {
+    const animations = [];
 
-    const sortedArr = [];
+    if (array.length <= 1)
+        return array;
 
-    let i = 0, j = 0;
-    while (i < left.length && j < right.length) {
-        if (left[i] < right[j])
-            sortedArr.push(left[i++]);
-        else
-        sortedArr.push(right[j++]);
+    const auxArray = array.slice();
+    mergeSortHelper(array, 0, array.length - 1, auxArray, animations);
+
+    return animations;
+}
+
+function mergeSortHelper(mainArray, startIndex, endIndex, auxArray, animations) {
+    if (startIndex === endIndex)
+        return;
+
+    const midIndex = Math.floor((startIndex + endIndex) / 2);
+    mergeSortHelper(auxArray, startIndex, midIndex, mainArray, animations);
+    mergeSortHelper(auxArray, midIndex + 1, endIndex, mainArray, animations);
+    mergify(mainArray, startIndex, midIndex, endIndex, auxArray, animations);
+}
+
+function mergify(mainArray, startIndex, midIndex, endIndex, auxArray, animations)
+{
+    let k = startIndex;
+    let i = startIndex;
+    let j = midIndex + 1;
+
+    while (i <= midIndex && j <= endIndex) {
+        const animation = {};
+        animation.comparison = [i, j];
+
+        if (auxArray[i] <= auxArray[j]) {
+            animation.swap = [k, j];
+            mainArray[k++] = auxArray[i++];
+        }
+        else {
+            animation.swap = [k, j];
+            mainArray[k++] = auxArray[j++];
+        }
+        animation.push(animation);
     }
 
-    while (i < left.length)
-        sortedArr.push(left[i++]);
-    while (j < right.length)
-        sortedArr.push(right[j++]);
-    
-    return sortedArr;
+    while (i <= midIndex) {
+        animations.push({
+            comparison: [i, i],
+            swap: [k, i],
+        });
+
+        mainArray[k++] = auxArray[i++];
+    }
+
+    while (j <= endIndex) {
+        animations.push({
+            comparison: [j, j],
+            swap: [k, j],
+        });
+
+        mainArray[k++] = auxArray[j++];
+    }
 }
