@@ -1,5 +1,6 @@
 import React from 'react';
 import './Visualizer.css';
+import * as sortAlgorithms from '../sortAlgorithms/sortAlgorithms.js';
 
 export default class Visualizer extends React.Component {
 	constructor(props) {
@@ -23,7 +24,7 @@ export default class Visualizer extends React.Component {
 	}
 
 	mergeSort() {
-
+		const sortedArr = sortAlgorithms.mergeSort(this.state.array);
 	}
 
 	quickSort() {
