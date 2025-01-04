@@ -54,3 +54,46 @@ function mergify(mainArray, startIndex, midIndex, endIndex, auxArray, animations
         mainArray[k++] = auxArray[j++];
     }
 }
+
+export function getQuickSortAnimations(array) {
+    const animations = [];
+    if (array.length <= 1) return animations;
+    quickSortHelper(array, 0, array.length - 1, animations);
+    return animations;
+}
+
+function quickSortHelper(array, startIdx, endIdx, animations) {
+    if (startIdx < endIdx) {
+        const pivotIdx = partition(array, startIdx, endIdx, animations);
+        quickSortHelper(array, startIdx, pivotIdx - 1, animations);
+        quickSortHelper(array, pivotIdx + 1, endIdx, animations);
+    }
+}
+
+function partition(array, startIdx, endIdx, animations) {
+    const pivot = array[endIdx];
+    let i = startIdx - 1;
+
+    for (let j = startIdx; j < endIdx; j++) {
+        animations.push([j, endIdx]); // Color Change
+        animations.push([j, endIdx]); // Revert Color
+
+        if (array[j] <= pivot) {
+            i++;
+            animations.push([i, array[j]]); // Swap
+            animations.push([j, array[i]]); // Swap
+            swap(array, i, j);
+        }
+    }
+    animations.push([i + 1, array[endIdx]]); // Swap
+    animations.push([endIdx, array[i + 1]]); // Swap
+    swap(array, i + 1, endIdx);
+
+    return i + 1;
+}
+
+function swap(array, i, j) {
+    const temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+}
