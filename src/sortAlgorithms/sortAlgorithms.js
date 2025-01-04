@@ -1,6 +1,4 @@
-// 
-
-export function mergeSort(array) {
+export function getMergeAnimations(array) {
     const animations = [];
 
     if (array.length <= 1)
@@ -29,35 +27,30 @@ function mergify(mainArray, startIndex, midIndex, endIndex, auxArray, animations
     let j = midIndex + 1;
 
     while (i <= midIndex && j <= endIndex) {
-        const animation = {};
-        animation.comparison = [i, j];
+        animations.push([i, j]); // Color Change
+        animations.push([i, j]); // Revert Color
 
         if (auxArray[i] <= auxArray[j]) {
-            animation.swap = [k, j];
+            animations.push([k, auxArray[i]]);
             mainArray[k++] = auxArray[i++];
         }
         else {
-            animation.swap = [k, j];
+            animations.push([k, auxArray[j]]);
             mainArray[k++] = auxArray[j++];
         }
-        animation.push(animation);
     }
 
     while (i <= midIndex) {
-        animations.push({
-            comparison: [i, i],
-            swap: [k, i],
-        });
-
+        animations.push([i, j]); // Color Change
+        animations.push([i, j]); // Revert Color
+        animations.push([k, auxArray[i]]);
         mainArray[k++] = auxArray[i++];
     }
 
     while (j <= endIndex) {
-        animations.push({
-            comparison: [j, j],
-            swap: [k, j],
-        });
-
+        animations.push([j, j]); // Color Change
+        animations.push([j, j]); // Rever Color
+        animations.push([k, auxArray[j]]);
         mainArray[k++] = auxArray[j++];
     }
 }
