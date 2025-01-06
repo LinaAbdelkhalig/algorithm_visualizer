@@ -55,45 +55,98 @@ function mergify(mainArray, startIndex, midIndex, endIndex, auxArray, animations
     }
 }
 
+// export function getQuickSortAnimations(array) {
+//     const animations = [];
+//     if (array.length <= 1)
+//         return animations;
+//     const auxArray = array.slice();
+//     quickSortHelper(auxArray, 0, array.length - 1, animations);
+//     return animations;
+// }
+
+// function quickSortHelper(auxArray, startIdx, endIdx, animations) {
+//     if (startIdx >= endIdx)
+//         return;
+//     const pivotIdx = partition(auxArray, startIdx, endIdx, animations);
+//     quickSortHelper(auxArray, startIdx, pivotIdx - 1, animations);
+//     quickSortHelper(auxArray, pivotIdx + 1, endIdx, animations);
+// }
+
+// function partition(auxArray, startIdx, endIdx, animations) {
+//     const pivotValue = auxArray[endIdx];
+//     let pivotIdx = startIdx;
+
+//     for (let i = startIdx; i < endIdx; i++) {
+//         animations.push([i, endIdx]); // Color Change
+//         animations.push([i, endIdx]); // Revert Color
+
+//         if (auxArray[i] <= pivotValue) {
+//             // Swap animation
+//             animations.push([pivotIdx, auxArray[i]]);
+//             animations.push([i, auxArray[pivotIdx]]);
+            
+//             // Perform the swap
+//             [auxArray[pivotIdx], auxArray[i]] = [auxArray[i], auxArray[pivotIdx]];
+//             pivotIdx++;
+//         }
+//     }
+//     // Final pivot swap animation
+//     animations.push([pivotIdx, endIdx]); // Color change
+//     animations.push([pivotIdx, endIdx]); // Revert color
+//     animations.push([pivotIdx, auxArray[endIdx]]);
+//     animations.push([endIdx, auxArray[pivotIdx]]);
+    
+//     [auxArray[pivotIdx], auxArray[endIdx]] = [auxArray[endIdx], auxArray[pivotIdx]];
+    
+//     return pivotIdx;
+// }
+
 export function getQuickSortAnimations(array) {
     const animations = [];
     if (array.length <= 1) return animations;
-    quickSortHelper(array, 0, array.length - 1, animations);
+    const auxArray = array.slice();
+    quickSortHelper(auxArray, 0, auxArray.length - 1, animations);
     return animations;
 }
 
-function quickSortHelper(array, startIdx, endIdx, animations) {
-    if (startIdx < endIdx) {
-        const pivotIdx = partition(array, startIdx, endIdx, animations);
-        quickSortHelper(array, startIdx, pivotIdx - 1, animations);
-        quickSortHelper(array, pivotIdx + 1, endIdx, animations);
+function quickSortHelper(dupBlocks, l, r, animations) {
+    if (l >= r) {
+        if (l === r) animations.push([null, null, null, l]); // Mark sorted element
+        return;
     }
+
+    const pivot = l + Math.floor(Math.random() * (r - l)); // Random pivot
+    swap(dupBlocks, l, pivot); // Swap pivot with first element
+    animations.push([l, pivot, dupBlocks.slice(), null]); // Animation for pivot swap
+
+    const m = partition(dupBlocks, l, r, animations); // Partition and get new pivot index
+    quickSortHelper(dupBlocks, l, m - 1, animations); // Left side recursion
+    quickSortHelper(dupBlocks, m + 1, r, animations); // Right side recursion
 }
 
-function partition(array, startIdx, endIdx, animations) {
-    const pivot = array[endIdx];
-    let i = startIdx - 1;
+function partition(dupBlocks, l, r, animations) {
+    const pivot = l;
+    let j = l;
 
-    for (let j = startIdx; j < endIdx; j++) {
-        animations.push([j, endIdx]); // Color Change
-        animations.push([j, endIdx]); // Revert Color
-
-        if (array[j] <= pivot) {
-            i++;
-            animations.push([i, array[j]]); // Swap
-            animations.push([j, array[i]]); // Swap
-            swap(array, i, j);
+    for (let i = l + 1; i <= r; i++) {
+        animations.push([i, pivot, null, null]); // Color change for comparison
+        if (dupBlocks[i] < dupBlocks[pivot]) {
+            j += 1;
+            swap(dupBlocks, i, j); // Swap elements
+            animations.push([i, j, dupBlocks.slice(), null]); // After swap animation
         }
     }
-    animations.push([i + 1, array[endIdx]]); // Swap
-    animations.push([endIdx, array[i + 1]]); // Swap
-    swap(array, i + 1, endIdx);
 
-    return i + 1;
+    swap(dupBlocks, pivot, j); // Final pivot swap
+    animations.push([pivot, j, dupBlocks.slice(), null]); // Pivot swap animation
+    animations.push([null, null, null, j]); // Return the final pivot position
+
+    return j;
 }
 
-function swap(array, i, j) {
-    const temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
+function swap(arr, i, j) {
+    const temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
 }
+

@@ -4,6 +4,7 @@ import {
 	getMergeAnimations,
 	getQuickSortAnimations
 } from '../sortAlgorithms/sortAlgorithms.js';
+import Navbar from '../components/Navbar';
 
 
 // Speed of the animation in ms
@@ -18,6 +19,10 @@ export default class Visualizer extends React.Component {
 		this.state = {
 			array: [], // This is the basic array
 		};
+
+		this.resetArray = this.resetArray.bind(this);
+		this.mergeSort = this.mergeSort.bind(this);
+		this.quickSort = this.quickSort.bind(this);
 	}
 
 	componentDidMount() {
@@ -77,28 +82,64 @@ export default class Visualizer extends React.Component {
 						return;
 					}
 					const barOneStyle = arrayBars[barOneIndex].style;
-					barOneStyle.height = `${newHeight / 2}px`;
+					barOneStyle.height = `${newHeight / 3}px`;
 				}, i * ANIMATION_SPEED);
 			}
 		}
 	}
 
+	// quickSort() {
+	// 	const animations = getQuickSortAnimations(this.state.array);
+	// 	const arrayBars = document.getElementsByClassName('array-bar');
+
+	// 	if (!arrayBars.length) {
+	// 		console.error("No array bars found. Make sure the array is rendered correctly.");
+	// 		return;
+	// 	}
+
+	// 	for (let i = 0; i < animations.length; i++) {
+	// 		const isColorChange = i % 4 < 2;
+
+	// 		if (isColorChange) {
+	// 			const [barOneIndex, barTwoIndex] = animations[i];
+	// 			const color = i % 4 === 0 ? 'red' : 'pink';
+
+	// 			if (arrayBars[barOneIndex] && arrayBars[barTwoIndex]) {
+	// 				setTimeout(() => {
+	// 					arrayBars[barOneIndex].style.backgroundColor = color;
+	// 					arrayBars[barTwoIndex].style.backgroundColor = color;
+	// 				}, i * ANIMATION_SPEED);
+	// 			} else {
+	// 				console.error("Invalid index in animations:", barOneIndex, barTwoIndex);
+	// 			}
+	// 		} else {
+	// 			setTimeout(() => {
+	// 				const [barIndex, newHeight] = animations[i];
+	// 				if (arrayBars[barIndex]) {
+	// 					arrayBars[barIndex].style.height = `${newHeight / 2}px`;
+	// 				} else {
+	// 					console.error("Invalid index in animations:", barIndex);
+	// 				}
+	// 			}, i * ANIMATION_SPEED);
+	// 		}
+	// 	}
+	// }
 	quickSort() {
 		const animations = getQuickSortAnimations(this.state.array);
 		const arrayBars = document.getElementsByClassName('array-bar');
-
+	
 		if (!arrayBars.length) {
 			console.error("No array bars found. Make sure the array is rendered correctly.");
 			return;
 		}
-
+	
 		for (let i = 0; i < animations.length; i++) {
-			const isColorChange = i % 4 < 2;
-
+			const isColorChange = i % 4 < 2; // Color change (for comparisons and swaps)
+	
 			if (isColorChange) {
 				const [barOneIndex, barTwoIndex] = animations[i];
 				const color = i % 4 === 0 ? 'red' : 'pink';
-
+	
 				if (arrayBars[barOneIndex] && arrayBars[barTwoIndex]) {
 					setTimeout(() => {
 						arrayBars[barOneIndex].style.backgroundColor = color;
@@ -109,16 +150,17 @@ export default class Visualizer extends React.Component {
 				}
 			} else {
 				setTimeout(() => {
-					const [barIndex, newHeight] = animations[i];
-					if (arrayBars[barIndex]) {
-						arrayBars[barIndex].style.height = `${newHeight / 2}px`;
+					const [barOneIndex, newHeight] = animations[i];
+					if (arrayBars[barOneIndex]) {
+						const barOneStyle = arrayBars[barOneIndex].style;
+						barOneStyle.height = `${newHeight/3}px`; // Set height based on array value
 					} else {
-						console.error("Invalid index in animations:", barIndex);
+						console.error("Invalid index in animations:", barOneIndex);
 					}
 				}, i * ANIMATION_SPEED);
 			}
 		}
-	}
+	}	
 
 
 	render() {
@@ -126,24 +168,22 @@ export default class Visualizer extends React.Component {
 		const { array } = this.state;
 
 		return (
-			<div className="container">
-				<div className="array-container">
+			<div className="container-fluid">
+				<Navbar
+					onResetArray={this.resetArray}
+					onMergeSort={this.mergeSort}
+					onQuickSort={this.quickSort}
+				/>
+				<div className="array-container container">
 					{array.map((value, idx) => (
 						<div
 							className="array-bar"
 							key={idx}
 							style={{
-								height: `${value / 2}px`,
+								height: `${value / 3}px`,
 							}}>
 						</div>
 					))}
-				</div>
-				<div className="footer">
-					<button onClick={() => this.resetArray()}>Generate a New Array</button>
-					<button onClick={() => this.mergeSort()}>Merge Sort</button>
-					<button onClick={() => this.quickSort()}>Quick Sort</button>
-					<button onClick={() => this.heapSort()}>Heap Sort</button>
-					<button onClick={() => this.bubbleSort()}>Bubble Sort</button>
 				</div>
 			</div>
 		);

@@ -1,17 +1,46 @@
+/* Navbar adjustments */
+.navbar {
+    margin-bottom: 20px;
+}
+
+/* Array container */
 .array-container {
-    left: 10em;
     position: absolute;
-    bottom: 100px;
+    bottom: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 50vh; /* Adjust the height as needed */
+    left: 7%;
 }
 
+/* Array bars */
 .array-bar {
-    width: 10px;
     background-color: pink;
-    display: inline-block;
+    width: 1%;
     margin: 0 1px;
+    display: inline-block;
+    transition: height 0.3s ease;
 }
 
-.footer {
-    position: absolute;
-    bottom: 0;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .array-container {
+        height: 40vh;
+    }
+
+    .array-bar {
+        width: 2%;
+    }
+}
+
+@media (max-width: 576px) {
+    .array-container {
+        height: 30vh;
+    }
+
+    .array-bar {
+        width: 3%;
+    }
 }
