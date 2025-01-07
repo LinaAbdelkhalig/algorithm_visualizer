@@ -5,6 +5,7 @@ import {
 	getQuickSortAnimations
 } from '../sortAlgorithms/sortAlgorithms.js';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer.jsx';
 
 
 // Speed of the animation in ms
@@ -168,7 +169,7 @@ export default class Visualizer extends React.Component {
 		const { array } = this.state;
 
 		return (
-			<div className="container-fluid">
+			<div className="container-fluid px-0" id="app-container">
 				<Navbar
 					onResetArray={this.resetArray}
 					onMergeSort={this.mergeSort}
@@ -177,7 +178,7 @@ export default class Visualizer extends React.Component {
 				<div className="array-container container">
 					{array.map((value, idx) => (
 						<div
-							className="array-bar"
+							className="array-bar shadow-sm"
 							key={idx}
 							style={{
 								height: `${value / 3}px`,
@@ -185,6 +186,7 @@ export default class Visualizer extends React.Component {
 						</div>
 					))}
 				</div>
+				<Footer/>
 			</div>
 		);
 	}
