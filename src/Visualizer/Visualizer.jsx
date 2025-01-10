@@ -89,42 +89,6 @@ export default class Visualizer extends React.Component {
 		}
 	}
 
-	// quickSort() {
-	// 	const animations = getQuickSortAnimations(this.state.array);
-	// 	const arrayBars = document.getElementsByClassName('array-bar');
-
-	// 	if (!arrayBars.length) {
-	// 		console.error("No array bars found. Make sure the array is rendered correctly.");
-	// 		return;
-	// 	}
-
-	// 	for (let i = 0; i < animations.length; i++) {
-	// 		const isColorChange = i % 4 < 2;
-
-	// 		if (isColorChange) {
-	// 			const [barOneIndex, barTwoIndex] = animations[i];
-	// 			const color = i % 4 === 0 ? 'red' : 'pink';
-
-	// 			if (arrayBars[barOneIndex] && arrayBars[barTwoIndex]) {
-	// 				setTimeout(() => {
-	// 					arrayBars[barOneIndex].style.backgroundColor = color;
-	// 					arrayBars[barTwoIndex].style.backgroundColor = color;
-	// 				}, i * ANIMATION_SPEED);
-	// 			} else {
-	// 				console.error("Invalid index in animations:", barOneIndex, barTwoIndex);
-	// 			}
-	// 		} else {
-	// 			setTimeout(() => {
-	// 				const [barIndex, newHeight] = animations[i];
-	// 				if (arrayBars[barIndex]) {
-	// 					arrayBars[barIndex].style.height = `${newHeight / 2}px`;
-	// 				} else {
-	// 					console.error("Invalid index in animations:", barIndex);
-	// 				}
-	// 			}, i * ANIMATION_SPEED);
-	// 		}
-	// 	}
-	// }
 	quickSort() {
 		const animations = getQuickSortAnimations(this.state.array);
 		const arrayBars = document.getElementsByClassName('array-bar');

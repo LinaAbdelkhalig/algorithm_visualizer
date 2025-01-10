@@ -2,7 +2,7 @@ import React from 'react';
 
 function Footer() {
     return (
-        <footer class="text-center text-lg-start pb-4">
+        <footer class="text-center text-lg-start pb-3">
             <div class="container pt-4">
                 <div class="row text-center">
                     <p class="mb-0">Created by Lina Abdelkhalig for the ALX Webstack Portfolio Project</p>
@@ -15,7 +15,7 @@ function Footer() {
                                 <a href="https://github.com/LinaAbdelkhalig"><i class="fa-brands fa-github"></i></a>
                             </li>
                             <li>
-                                <a href="www.linkedin.com/in/linaabdelkhalig"><i class="fa-brands fa-linkedin"></i></a>
+                                <a href="https://linkedin.com/in/linaabdelkhalig"><i class="fa-brands fa-linkedin"></i></a>
                             </li>
                         </ul>
                     </div>
