@@ -1,9 +1,7 @@
 import React from 'react';
 import './Visualizer.css';
-import {
-	getMergeAnimations,
-	getQuickSortAnimations
-} from '../sortAlgorithms/sortAlgorithms.js';
+import { getQuickSortAnimations } from '../sortAlgorithms/mergeSort.js';
+import { getMergeAnimations } from '../sortAlgorithms/mergeSort.js';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer.jsx';
 
@@ -92,19 +90,19 @@ export default class Visualizer extends React.Component {
 	quickSort() {
 		const animations = getQuickSortAnimations(this.state.array);
 		const arrayBars = document.getElementsByClassName('array-bar');
-	
+
 		if (!arrayBars.length) {
 			console.error("No array bars found. Make sure the array is rendered correctly.");
 			return;
 		}
-	
+
 		for (let i = 0; i < animations.length; i++) {
 			const isColorChange = i % 4 < 2; // Color change (for comparisons and swaps)
-	
+
 			if (isColorChange) {
 				const [barOneIndex, barTwoIndex] = animations[i];
 				const color = i % 4 === 0 ? 'red' : 'pink';
-	
+
 				if (arrayBars[barOneIndex] && arrayBars[barTwoIndex]) {
 					setTimeout(() => {
 						arrayBars[barOneIndex].style.backgroundColor = color;
@@ -118,14 +116,14 @@ export default class Visualizer extends React.Component {
 					const [barOneIndex, newHeight] = animations[i];
 					if (arrayBars[barOneIndex]) {
 						const barOneStyle = arrayBars[barOneIndex].style;
-						barOneStyle.height = `${newHeight/3}px`; // Set height based on array value
+						barOneStyle.height = `${newHeight / 3}px`; // Set height based on array value
 					} else {
 						console.error("Invalid index in animations:", barOneIndex);
 					}
 				}, i * ANIMATION_SPEED);
 			}
 		}
-	}	
+	}
 
 
 	render() {
@@ -150,7 +148,7 @@ export default class Visualizer extends React.Component {
 						</div>
 					))}
 				</div>
-				<Footer/>
+				<Footer />
 			</div>
 		);
 	}
